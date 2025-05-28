@@ -1,49 +1,25 @@
-import React, { useState } from 'react';
-import ProjectItem from './components/ProjectItem';
-import FilterPanel from './components/FilterPanel';
-import projects from './data';
+
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+
+import Verk from './pages/verk';
+import Home from './pages/home'
+
+
   
 function App() {
-  const [expandedId, setExpandedId] = useState(null);
-  const [showFilter, setShowFilter] = useState(false);
-
-  const toggleExpand = (id) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
 
   return (
-    <div className="flex">
-      <div className="w-2/3 p-4 border">
-        <h1 className="text-xl mb-4 text-center">NORDISKA BRAND DATABASE</h1>
+      <Router>
+        <Routes>
+          {/*Always accessible pages */}
+          <Route index element={<Home />} /> {/*Default end point "/" */}
+          <Route path='/home' element={<Home />} />          
+          <Route path='/verk' element={<Verk />} />
 
-        <div className="flex mb-2">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border p-1 flex-grow"
-          />
-          <button
-            onClick={() => setShowFilter(!showFilter)}
-            className="ml-2 px-4 py-1 border"
-          >
-            FILTER
-          </button>
-        </div>
-
-        {showFilter && <FilterPanel />}
-
-        <div>
-          {projects.map((project) => (
-            <ProjectItem
-              key={project.id}
-              project={project}
-              isExpanded={expandedId === project.id}
-              toggleExpand={toggleExpand}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
+           {/*<Route path='*' element={<NoPage />} /> Catch wrong URL end points to a error page */}
+        </Routes>
+      </Router>
+    
   );
 }
 
